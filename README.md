@@ -79,10 +79,15 @@ See [tests/README.md](tests/README.md) for more details.
 
 This project is licensed under the MIT License.
 
-## 👤 Author
+## 👥 Team
 
-**Henok Tade**
-- GitHub: [@HenokTade](https://github.com/HenokTade)
+**Development Team**:
+- **Haileab Tesfaye** (ETS0714/14) - SCM Manager & Lead Developer
+- **Ephrem Mandefro** (ETS0536/14) - Tester & Change Controller
+- **Haileyesus Asrat** (ETS0718/14) - Documenter & Auditor
+- **Henok Tademe** (ETS0775/14) - Reviewer & Developer
+
+**GitHub**: [@HenokTade](https://github.com/HenokTade)
 
 ## 🤝 Contributing
 
@@ -90,4 +95,4 @@ Contributions, issues, and feature requests are welcome!
 
 ---
 
-Made with ❤️ by Henok Tade
+Made with ❤️ by Team: Haileab Tesfaye, Ephrem Mandefro, Haileyesus Asrat, Henok Tademe
