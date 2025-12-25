@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,29 +8,83 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- Simple Modal Styles -->
     <style>
-        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
-        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 8px; }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .close:hover { color: black; }
-        .action-btn { margin-right: 5px; cursor: pointer; }
-        .search-bar { margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; }
-        .role-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; background: #e9ecef; color: #495057; }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        .action-btn {
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            background: #e9ecef;
+            color: #495057;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>Inventory Dashboard</h1>
             <div class="user-info">
                 <span>Welcome, <strong>{{ user }}</strong> <span class="role-badge">{{ role }}</span></span>
+                {% if role == 'Admin' %}
+                <a href="{{ url_for('manage_users') }}" class="btn"
+                    style="background:#17a2b8; color:white; margin-right:5px;">Manage Users</a>
+                {% endif %}
                 <a href="{{ url_for('logout') }}" class="btn logout">Logout</a>
             </div>
         </header>
 
         <!-- CR-002: Search and Filter Section -->
         <div class="search-bar">
-            <form action="{{ url_for('dashboard') }}" method="GET" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                <input type="text" name="search" placeholder="Search items..." value="{{ search_query }}" style="flex: 1; padding: 8px;">
+            <form action="{{ url_for('dashboard') }}" method="GET"
+                style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <input type="text" name="search" placeholder="Search items..." value="{{ search_query }}"
+                    style="flex: 1; padding: 8px;">
                 <input type="number" name="min_qty" placeholder="Min Qty" style="width: 80px; padding: 8px;">
                 <input type="number" name="max_qty" placeholder="Max Qty" style="width: 80px; padding: 8px;">
                 <button type="submit" class="btn">Filter</button>
@@ -88,11 +143,13 @@
                         {% if role != 'Viewer' %}
                         <td>
                             <!-- CR-001: Edit Button -->
-                            <button onclick="openEditModal('{{ item.id }}', '{{ item.name }}', '{{ item.quantity }}')" class="btn small action-btn">Edit</button>
-                            
+                            <button onclick="openEditModal('{{ item.id }}', '{{ item.name }}', '{{ item.quantity }}')"
+                                class="btn small action-btn">Edit</button>
+
                             <!-- CR-001: Delete Button (Admin Only) -->
                             {% if role == 'Admin' %}
-                            <form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                            <form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST"
+                                style="display: inline;" onsubmit="return confirm('Are you sure?');">
                                 <button type="submit" class="btn small danger action-btn">Delete</button>
                             </form>
                             {% endif %}
@@ -106,12 +163,70 @@
                     {% endfor %}
                 </tbody>
             </table>
-                    <input type="number" name="quantity" placeholder="Quantity" required>
+        </div>
+    </div>
+
+    <!-- Edit Item Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Item</h2>
+            <form id="editForm" method="POST">
+                <input type="hidden" id="editItemId" name="item_id">
+                <div class="form-group">
+                    <label for="editItemName">Item Name</label>
+                    <input type="text" id="editItemName" name="name" required>
                 </div>
-                <button type="submit" class="btn">Add Item</button>
+                <div class="form-group">
+                    <label for="editItemQuantity">Quantity</label>
+                    <input type="number" id="editItemQuantity" name="quantity" required min="0">
+                </div>
+                <button type="submit" class="btn primary">Save Changes</button>
             </form>
-        </section>
-    </main>
+        </div>
+    </div>
+
+    <script>
+        function openEditModal(id, name, quantity) {
+            document.getElementById('editItemId').value = id;
+            document.getElementById('editItemName').value = name;
+            document.getElementById('editItemQuantity').value = quantity;
+            document.getElementById('editForm').action = "{{ url_for('edit_item', item_id='DUMMY') }}".replace('DUMMY', id);
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('editModal')) {
+                closeEditModal();
+            }
+        }
+
+        // Auto-Submit for Real-Time Search (CR-002)
+        const searchInput = document.querySelector('input[name="search"]');
+        let timeout = null;
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    document.querySelector('.search-bar form').submit();
+                }, 500); // 500ms delay to prevent too many requests
+            });
+
+            // Focus on search box after reload if query exists
+            if (searchInput.value) {
+                searchInput.focus();
+                // Move cursor to end
+                const val = searchInput.value;
+                searchInput.value = '';
+                searchInput.value = val;
+            }
+        }
+    </script>
 </body>
 
 </html>

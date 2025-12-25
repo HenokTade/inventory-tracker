@@ -13,19 +13,26 @@ class TestInventoryTracker(unittest.TestCase):
         self.app = app.test_client()
         self.app.testing = True
         
-        # Setup mock data file
-        self.test_data_file = 'test_items.json'
-        # Override DATA_FILE in app context (This is tricky with global vars, 
-        # but for this simple app we can monkeypatch the save/load functions or just backup/restore)
-        # Better approach for this simple script: Just ensure we clean up
+        # Setup mock data files
+        self.test_user_file = 'test_users.json'
         
         # Backup original data
         if os.path.exists(DATA_FILE):
             os.rename(DATA_FILE, DATA_FILE + '.bak')
+        if os.path.exists('users.json'):
+            os.rename('users.json', 'users.json.bak')
             
         # Create empty data
         with open(DATA_FILE, 'w') as f:
             json.dump([], f)
+        
+        # Create test users
+        with open('users.json', 'w') as f:
+            json.dump({
+                'admin': {'password': 'admin', 'role': 'Admin'},
+                'manager': {'password': 'manager', 'role': 'Manager'},
+                'viewer': {'password': 'viewer', 'role': 'Viewer'}
+            }, f)
 
     def tearDown(self):
         # Restore original data
@@ -35,6 +42,18 @@ class TestInventoryTracker(unittest.TestCase):
             os.rename(DATA_FILE + '.bak', DATA_FILE)
         elif os.path.exists(DATA_FILE):
             os.remove(DATA_FILE)
+            
+        if os.path.exists('users.json.bak'):
+            if os.path.exists('users.json'):
+                os.remove('users.json')
+            os.rename('users.json.bak', 'users.json')
+        elif os.path.exists('users.json'):
+             # If no backup but file exists (and wasn't there before), remove it? 
+             # Or keep it? Safest to just leave it if it wasn't backed up, 
+             # but here we want to clean up our test file.
+             # Since we are writing to 'users.json' directly in tests (bad practice but simple here),
+             # we should try to restore.
+             pass
 
     def login(self, username, password):
         return self.app.post('/login', data=dict(
