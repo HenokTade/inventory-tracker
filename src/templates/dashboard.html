@@ -1,34 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Inventory Tracker</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Simple Modal Styles -->
+    <style>
+        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 8px; }
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: black; }
+        .action-btn { margin-right: 5px; cursor: pointer; }
+        .search-bar { margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; }
+        .role-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; background: #e9ecef; color: #495057; }
+    </style>
 </head>
-
 <body>
-    <header>
-        <div class="container header-content">
+    <div class="container">
+        <header>
             <h1>Inventory Dashboard</h1>
             <div class="user-info">
-                <span>Welcome, {{ user }}</span>
-                <a href="{{ url_for('logout') }}" class="btn-small">Logout</a>
+                <span>Welcome, <strong>{{ user }}</strong> <span class="role-badge">{{ role }}</span></span>
+                <a href="{{ url_for('logout') }}" class="btn logout">Logout</a>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <main class="container">
-        <section class="inventory-list">
+        <!-- CR-002: Search and Filter Section -->
+        <div class="search-bar">
+            <form action="{{ url_for('dashboard') }}" method="GET" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <input type="text" name="search" placeholder="Search items..." value="{{ search_query }}" style="flex: 1; padding: 8px;">
+                <input type="number" name="min_qty" placeholder="Min Qty" style="width: 80px; padding: 8px;">
+                <input type="number" name="max_qty" placeholder="Max Qty" style="width: 80px; padding: 8px;">
+                <button type="submit" class="btn">Filter</button>
+                {% if search_query %}
+                <a href="{{ url_for('dashboard') }}" class="btn" style="background: #6c757d;">Clear</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Add Item Section (Hidden for Viewers) -->
+        {% if role != 'Viewer' %}
+        <div class="add-item-section">
+            <h2>Add New Item</h2>
+            <form action="{{ url_for('add_item') }}" method="POST" class="add-form">
+                <div class="form-group">
+                    <label for="name">Item Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" required min="0">
+                </div>
+                <button type="submit" class="btn primary">Add Item</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <div class="inventory-list">
             <h2>Current Inventory</h2>
-            {% if items %}
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Item Name</th>
+                        <th>Name</th>
                         <th>Quantity</th>
+                        <th>Last Modified</th>
+                        {% if role != 'Viewer' %}
+                        <th>Actions</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -37,22 +77,35 @@
                         <td>{{ item.id }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.quantity }}</td>
+                        <td>
+                            <small>
+                                {{ item.last_modified if item.last_modified else '-' }}
+                                {% if item.modified_by %}
+                                <br>by {{ item.modified_by }}
+                                {% endif %}
+                            </small>
+                        </td>
+                        {% if role != 'Viewer' %}
+                        <td>
+                            <!-- CR-001: Edit Button -->
+                            <button onclick="openEditModal('{{ item.id }}', '{{ item.name }}', '{{ item.quantity }}')" class="btn small action-btn">Edit</button>
+                            
+                            <!-- CR-001: Delete Button (Admin Only) -->
+                            {% if role == 'Admin' %}
+                            <form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                                <button type="submit" class="btn small danger action-btn">Delete</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center;">No items found.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            {% else %}
-            <p class="empty-state">No items in inventory yet.</p>
-            {% endif %}
-        </section>
-
-        <section class="add-item-form">
-            <h2>Add New Item</h2>
-            <form action="{{ url_for('add_item') }}" method="POST" class="inline-form">
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="Item Name" required>
-                </div>
-                <div class="form-group">
                     <input type="number" name="quantity" placeholder="Quantity" required>
                 </div>
                 <button type="submit" class="btn">Add Item</button>

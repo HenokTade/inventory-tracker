@@ -1,10 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import json
 import os
+import datetime
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key_for_demo_purposes'
 DATA_FILE = 'items.json'
+
+# Mock Data for Users (CR-003: Role Management)
+# In a real app, this would be in a database
+USERS = {
+    'admin': {'password': 'admin', 'role': 'Admin'},      # Full Access
+    'manager': {'password': 'manager', 'role': 'Manager'}, # Add/Edit/Search
+    'viewer': {'password': 'viewer', 'role': 'Viewer'}     # Read Only
+}
 
 def load_items():
     if not os.path.exists(DATA_FILE):
@@ -31,25 +40,60 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        # Simple hardcoded check
-        if username == 'admin' and password == 'admin':
+        
+        if username in USERS and USERS[username]['password'] == password:
             session['user'] = username
+            session['role'] = USERS[username]['role']
             return redirect(url_for('dashboard'))
         else:
-            error = 'Invalid Credentials. Please try again.'
+            error = 'Invalid Credentials. Try admin/admin, manager/manager, or viewer/viewer'
     return render_template('login.html', error=error)
 
 @app.route('/dashboard')
 def dashboard():
     if 'user' not in session:
         return redirect(url_for('login'))
+    
     items = load_items()
-    return render_template('dashboard.html', items=items, user=session['user'])
+    
+    # CR-002: Search and Filter
+    query = request.args.get('search', '').lower()
+    min_qty = request.args.get('min_qty')
+    max_qty = request.args.get('max_qty')
+    
+    filtered_items = []
+    
+    for item in items:
+        # Search Filter
+        if query and query not in item['name'].lower():
+            continue
+            
+        # Quantity Filter
+        try:
+            qty = int(item['quantity'])
+            if min_qty and qty < int(min_qty):
+                continue
+            if max_qty and qty > int(max_qty):
+                continue
+        except ValueError:
+            pass # Ignore INVALID quantity data for filtering
+            
+        filtered_items.append(item)
+        
+    return render_template('dashboard.html', 
+                           items=filtered_items, 
+                           user=session['user'],
+                           role=session['role'],
+                           search_query=query)
 
 @app.route('/add', methods=['POST'])
 def add_item():
     if 'user' not in session:
         return redirect(url_for('login'))
+        
+    # Permission Check (Viewer cannot add)
+    if session.get('role') == 'Viewer':
+        return redirect(url_for('dashboard'))
     
     item_name = request.form.get('name')
     item_quantity = request.form.get('quantity')
@@ -57,18 +101,63 @@ def add_item():
     if item_name and item_quantity:
         items = load_items()
         new_item = {
-            'id': len(items) + 1,
+            'id': len(items) + 1, # Simple ID generation
             'name': item_name,
-            'quantity': item_quantity
+            'quantity': item_quantity,
+            'last_modified': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            'modified_by': session['user']
         }
         items.append(new_item)
         save_items(items)
         
     return redirect(url_for('dashboard'))
 
+# CR-001: Edit Item Route
+@app.route('/edit/<int:item_id>', methods=['POST'])
+def edit_item(item_id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    # Permission Check (Viewer cannot edit)
+    if session.get('role') == 'Viewer':
+        return redirect(url_for('dashboard'))
+
+    item_name = request.form.get('name')
+    item_quantity = request.form.get('quantity')
+
+    if item_name and item_quantity:
+        items = load_items()
+        for item in items:
+            if item.get('id') == item_id:
+                item['name'] = item_name
+                item['quantity'] = item_quantity
+                item['last_modified'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                item['modified_by'] = session['user']
+                break
+        save_items(items)
+
+    return redirect(url_for('dashboard'))
+
+# CR-001: Delete Item Route (Admin Only)
+@app.route('/delete/<int:item_id>', methods=['POST'])
+def delete_item(item_id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    # Permission Check (Only Admin can delete)
+    if session.get('role') != 'Admin':
+        return redirect(url_for('dashboard'))
+
+    items = load_items()
+    # Create new list excluding the item to delete
+    items = [item for item in items if item.get('id') != item_id]
+    save_items(items)
+
+    return redirect(url_for('dashboard'))
+
 @app.route('/logout')
 def logout():
-    session.pop('user', None)
+    session.clear()
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
