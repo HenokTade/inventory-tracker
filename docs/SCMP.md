@@ -2,371 +2,175 @@
 ## Inventory Tracker System
 
 **Project**: Inventory Tracker System  
-**Version**: 1.1  
+**Version**: 1.2  
 **Date**: December 25, 2024  
-**Prepared By**: Henok Tade
+**Prepared By**: Henok Tade (Reviewer & Developer)  
+**Approved By**: Haileab Tesfaye (SCM Manager)
 
 ---
 
 ## 1. Introduction
 
 ### 1.1 Purpose
-This Software Configuration Management Plan (SCMP) defines the configuration management activities for the Inventory Tracker System project. It establishes the procedures for identifying, controlling, tracking, and auditing all configuration items throughout the software development lifecycle.
+The purpose of this Software Configuration Management Plan (SCMP) is to define the configuration management activities for the Inventory Tracker System project. It establishes the procedures for identifying, controlling, tracking, and auditing all configuration items (CIs) throughout the software development lifecycle to ensure product integrity.
 
 ### 1.2 Scope
-This plan applies to all software components, documentation, and related artifacts of the Inventory Tracker System, including:
-- Source code files
-- Documentation
-- Test files
-- Configuration files
-- Database files (`items.json`, `users.json`)
-- UI mockups and designs
+This plan applies to all software components, documentation, and related artifacts of the Inventory Tracker System.
+**In Scope:**
+*   Source code (`src/`)
+*   Documentation (`docs/`, `README.md`)
+*   Test suites (`tests/`)
+*   Configuration and Data files (`items.json`, `users.json`, `requirements.txt`)
+*   Release artifacts (`releases/`)
 
-### 1.3 Definitions
-- **CI (Configuration Item)**: Any artifact that is placed under configuration management
-- **Baseline**: A formally approved version of a configuration item
-- **Version**: A specific state of a configuration item
-- **Repository**: Git-based version control system
+### 1.3 Organizational Relationships
+The Inventory Tracker System is developed by a collaborative student team. The SCM Manager reports to the Project Lead (if applicable) or academic supervisor. All team members (Developers, Testers, Documenters) interact directly with the SCM process.
+*   **Developers** submit changes to SCM.
+*   **Testers** verify CIs managed by SCM.
+*   **Auditors** review SCM records.
 
----
-
-## 2. Configuration Management Organization
-
-### 2.1 Team Structure
-
-**Project**: Inventory Tracker System  
-**Team Size**: 4 Members  
-**Organization**: Collaborative development with defined roles
-
-### 2.2 Roles and Responsibilities
-
-#### SCM Manager & Lead Developer
-**Name**: Haileab Tesfaye  
-**ID**: ETS0714/14  
-**Responsibilities**:
-- Oversee SCMP implementation and compliance
-- Manage baselines and version releases
-- Lead coding efforts (app.py, frontend files)
-- Coordinate team activities
-- Ensure configuration management procedures are followed
-
-**Authority**:
-- Approve merges to main branch
-- Resolve merge conflicts
-- Tag baselines and releases
-- Final approval on major architectural decisions
+### 1.4 References
+*   IEEE Std 828-2012, *IEEE Standard for Configuration Management in Systems and Software Engineering*.
+*   Inventory Tracker System *Requirements Document* (CI-002).
+*   Inventory Tracker System *Project Plan*.
 
 ---
 
-#### Tester & Change Controller
-**Name**: Ephrem Mandefro  
-**ID**: ETS0536/14  
-**Responsibilities**:
-- Test changes for functionality and quality
-- Process and track Change Requests (CRs)
-- Maintain Change Log documentation
-- Verify implementations meet requirements
-- Conduct functional testing
+## 2. Criteria for Identification
 
-**Authority**:
-- Review and approve/reject Change Requests
-- Verify implementations before merges
-- Sign off on test completion
-- Request changes or improvements
+### 2.1 Configuration Items (CIs)
+All CIs are uniquely identified and tracked in the **CI Register** (`docs/CI_REGISTER.md`).
+Key CI Categories include:
+*   **Source Code**: `app.py`, HTML templates, CSS styles.
+*   **Data**: `items.json` (Inventory), `users.json` (Users).
+*   **Docs**: Plans, Reports, Guides.
 
----
+### 2.2 Naming Conventions
+*   **Files**: Snake case for scripts (`test_app.py`), kebab-case for CSS/HTML (`style.css`), UPPERCASE for root docs (`README.md`).
+*   **Releases**: `vX.Y.Z` (e.g., `v1.1.0`).
+*   **Baselines**: `BL<Number>` (e.g., `BL1`, `BL2`).
 
-#### Documenter & Auditor
-**Name**: Haileyesus Asrat  
-**ID**: ETS0718/14  
-**Responsibilities**:
-- Prepare and update all documentation
-- Maintain CI Register
-- Conduct configuration audits
-- Generate audit reports
-- Ensure documentation accuracy and completeness
+### 2.3 Versioning Rules
+The project follows **Semantic Versioning (SemVer)**: `MAJOR.MINOR.PATCH`.
+*   **MAJOR**: Incompatible API changes.
+*   **MINOR**: Backwards-compatible functionality (e.g., New Features).
+*   **PATCH**: Backwards-compatible bug fixes.
 
-**Authority**:
-- Update documentation Configuration Items
-- Report audit findings to team
-- Request documentation improvements
-- Approve documentation changes
+### 2.4 Branching Model
+*   **`main`**: Verified, production-ready code. Protected branch.
+*   **`develop`**: Integration branch for ongoing work (optional).
+*   **`feature/<name>`**: For new capabilities (e.g., `feature/role-management`).
+*   **`bugfix/<name>`**: For verifying and fixing defects.
+*   **`docs/<name>`**: For documentation updates.
 
 ---
 
-#### Reviewer & Developer
-**Name**: Henok Tademe  
-**ID**: ETS0775/14  
-**Responsibilities**:
-- Review pull requests and code changes
-- Review documentation for accuracy
-- Assist in development (JSON handling, CSS styling)
-- Provide technical feedback
-- Support testing activities
+## 3. Limitations & Assumptions
 
-**Authority**:
-- Provide feedback on pull requests
-- Commit to feature branches
-- Request code improvements
-- Approve minor documentation updates
+### 3.1 Assumptions
+*   All team members have access to the GitHub repository.
+*   GitHub Actions (or manual execution) is sufficient for CI checks.
+*   The team consists of 4 members performing distinct but overlapping roles.
+
+### 3.2 Limitations
+*   No external QA team; peer testing is utilized.
+*   SCM acts as the primary release mechanism (no separate deployment pipeline).
+*   Data files (`json`) are part of the repo for this prototype (not suitable for large-scale production).
 
 ---
 
-## 3. Configuration Identification
+## 4. CM Responsibilities & Authorities
 
-### 3.1 Configuration Items
-All CIs are documented in the CI Register (`docs/CI_REGISTER.md`), including:
-- CI name and unique identifier
-- Version number
-- Owner
-- Category (Documentation, Source Code, UI/Frontend, Test Code, Database, Configuration)
-- Status (Draft, Under Review, Approved, Active, Deprecated, Archived)
+### 4.1 SCM Manager (Haileab Tesfaye)
+*   **Responsibilities**: Implementation of SCMP, Baseline management, Release tagging.
+*   **Authority**: Approval of merges to `main`, Start/End of SCM Audits, Final Release decision.
 
-### 3.2 Naming Conventions
+### 4.2 Change Controller (Ephrem Mandefro)
+*   **Responsibilities**: Evaluation of Change Requests (CRs), Change Log maintenance.
+*   **Authority**: Approval/Rejection of CRs, Verification of implementation completeness.
 
-#### Files
-- Use lowercase with underscores for Python files: `test_app.py`
-- Use descriptive names for HTML templates: `login.html`, `dashboard.html`
-- Use UPPERCASE for documentation: `README.md`, `INSTALLATION.md`
+### 4.3 Auditor (Haileyesus Asrat)
+*   **Responsibilities**: Conducting PCA/FCA, Updating CI Register, Verifying documentation.
+*   **Authority**: Flagging non-compliance, Requiring documentation updates.
 
-#### Versions
-- Follow semantic versioning: `MAJOR.MINOR.PATCH`
-- Example: `1.0.0`, `1.1.0`, `2.0.0`
-
-#### Git Branches
-- `main` - Production-ready code
-- `develop` - Development branch (if needed)
-- `feature/*` - Feature branches
-- `bugfix/*` - Bug fix branches
+### 4.4 Developer/Reviewer (Henok Tademe)
+*   **Responsibilities**: Adhering to SCM procedures, Peer reviews, Creating feature branches.
+*   **Authority**: Technical recommendation on Changes, Code review approval.
 
 ---
 
-## 4. Configuration Control
+## 5. Project Organization
 
-### 4.1 Change Control Process
+### 5.1 Structure
+The project operates as a flat team structure with functional roles assigned for SCM purposes.
 
-1. **Change Request**
-   - Identify the need for change
-   - Document the change requirement
-
-2. **Impact Analysis**
-   - Assess impact on existing CIs
-   - Identify affected components
-
-3. **Approval**
-   - Configuration Manager reviews change
-   - Approve or reject the change request
-
-4. **Implementation**
-   - Developer implements approved changes
-   - Update version numbers as needed
-   - Commit changes with descriptive messages
-
-5. **Verification**
-   - Run automated tests
-   - Verify functionality
-   - Update documentation
-
-6. **Release**
-   - Merge to main branch
-   - Tag release version
-   - Update CI Register
-
-### 4.2 Version Control
-
-#### Git Repository
-- **Platform**: GitHub
-- **Repository URL**: https://github.com/HenokTade/inventory-tracker
-- **Primary Branch**: `main`
-
-#### Commit Message Format
-```
-<type>: <subject>
-
-<body>
-
-<footer>
-```
-
-**Types**:
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `test`: Test additions or modifications
-- `refactor`: Code refactoring
-- `style`: Code style changes (formatting)
-- `chore`: Maintenance tasks
-
-**Example**:
-```
-feat: Add user authentication system
-
-Implemented login functionality with session management.
-Added login.html template and authentication routes.
-
-Closes #123
-```
-
-### 4.3 Baseline Management
-
-#### Baselines
-- **Initial Baseline**: v1.0.0 (Commit: 30151a8)
-- **Baseline 2**: BL2 / v1.1.0 (Commit: f130c33)
-- **Future Baselines**: Tagged releases (v2.0.0, etc.)
-
-#### Baseline Approval
-- All baselines require Configuration Manager approval
-- Baselines are tagged in Git with version numbers
-- Release notes document each baseline
+### 5.2 CM Interfaces
+*   **GitHub**: Central repository for all code and docs. Acts as the Single Source of Truth.
+*   **VS Code**: Primary development interface.
+*   **Communication Channels**: Team meetings for Change Control Board (CCB) decisions.
 
 ---
 
-## 5. Configuration Status Accounting
+## 6. Applicable Policies & Procedures
 
-### 5.1 Tracking
-- All changes tracked via Git commit history
-- CI Register maintained in `docs/CI_REGISTER.md`
-- Release notes in `releases/` directory
+### 6.1 Change Control Process
+1.  **Request**: Submit CR (Issue/Document).
+2.  **Assess**: Change Controller analyzes impact.
+3.  **Approve/Reject**: CCB decision.
+4.  **Implement**: Branch -> Code -> Test.
+5.  **Verify**: Tester confirms checks pass.
+6.  **Close**: Merge to `main` update logs.
 
-### 5.2 Reporting
-- **Weekly**: Review commit activity
-- **Monthly**: Update CI Register
-- **Per Release**: Create release notes
+### 6.2 Baseline Management
+Baselines are immutable reference points.
+*   **Creation**: At major milestones (e.g., "Prototype Complete", "Release Candidate").
+*   **Identification**: Tagged in Git (e.g., `BL1`, `BL2`).
+*   **Current Baseline**: `BL2` (Corresponds to v1.1.0).
 
-### 5.3 Metrics
-- Number of commits per week
-- Number of CIs under management
-- Number of open/closed issues
-- Test coverage percentage
+### 6.3 Configuration Audits
+*   **Functional Configuration Audit (FCA)**: Verifies that the CIs function as intended and meet requirements (Tests passed?).
+*   **Physical Configuration Audit (PCA)**: Verifies that the CIs match the documentation and directory structure.
+*   **Schedule**: Before every major release.
 
----
-
-## 6. Configuration Audits
-
-Configuration auditing is conducted after change implementation to ensure full compliance with configuration management policies.
-
-### 6.1 Audit Criteria (FCA & PCA)
-Audits must verify the following five key areas:
-
-1.  **Alignment with Approved Request**: Verify implementation aligns with approved Change Request (CR).
-2.  **Documentation & Baselines**: Ensure all documentation (CI Register, Changelog) and Baselines (Git Tags) are updated.
-3.  **Verification Results**: Confirm all automated and manual tests have passed.
-4.  **Unauthorized Changes**: Check for any unauthorized changes or unexplained files.
-5.  **Audit Scope**: Conduct both Functional Configuration Audit (FCA) and Physical Configuration Audit (PCA).
-
-### 6.2 Audit Schedule
-- **Pre-Release**: Before each version release (Required)
-- **Quarterly**: Every 3 months (Periodic check)
-- **Ad-hoc**: As needed for major changes
+### 6.4 Backup & Recovery
+*   **Backup**: Continuous via GitHub remote. Local clones serve as distributed backups.
+*   **Recovery**: `git checkout <tag>` to restore any previous baseline state.
 
 ---
 
-## 7. Tools and Infrastructure
+## 7. Planned Activities
 
-### 7.1 Version Control
-- **Tool**: Git
-- **Platform**: GitHub
-- **Access**: Repository owner and authorized contributors
+### 7.1 Schedules & Milestones
+*   **Phase 1 (Setup)**: repository init, CI definitions. (Completed: Dec 19)
+*   **Phase 2 (Prototype)**: v1.0.0 (Completed: Dec 19)
+*   **Phase 3 (Features)**: v1.1.0 (CR-001/002/003) (Completed: Dec 25)
+*   **Phase 4 (Refinement)**: Final Audit & Handoff (Current)
 
-### 7.2 Development Tools
-- **IDE**: Visual Studio Code (or equivalent)
-- **Language**: Python 3.7+
-- **Framework**: Flask 2.0+
-- **Testing**: pytest, unittest
-
-### 7.3 Documentation Tools
-- **Format**: Markdown (.md)
-- **Storage**: Git repository (`/docs` directory)
+### 7.2 SCMP Resources (Tools Used)
+*   **Version Control**: Git (2.x+)
+*   **Repository Hosting**: GitHub
+*   **Editor**: Visual Studio Code
+*   **Language Runtime**: Python 3.12+ (Flask)
+*   **Documentation**: Markdown
 
 ---
 
-## 8. Backup and Recovery
+## 8. CMP Maintenance
 
-### 8.1 Backup Strategy
-- **Primary**: Git repository on GitHub (cloud-based)
-- **Local**: Developer workstation clones
-- **Frequency**: Continuous (with each push)
+### 8.1 Update Mechanism
+This SCMP is a living document. It shall be reviewed:
+*   At the start of each new development phase.
+*   When major SCM tools or procedures change.
+*   If Audit findings suggest process deficiencies.
 
-### 8.2 Recovery Procedures
-1. Clone repository from GitHub
-2. Checkout specific version/tag if needed
-3. Restore dependencies: `pip install -r requirements.txt`
-4. Verify functionality with test suite
-
----
-
-## 9. Training and Resources
-
-### 9.1 Training Requirements
-- Git version control basics
-- Python and Flask development
-- Testing procedures
-- Documentation standards
-
-### 9.2 Resources
-- Git documentation: https://git-scm.com/doc
-- Flask documentation: https://flask.palletsprojects.com/
-- Project documentation: `/docs` directory
-
----
-
-## 10. Compliance and Standards
-
-### 10.1 Standards
-- PEP 8 for Python code style
-- Semantic versioning for releases
-- Markdown for documentation
-
-### 10.2 Quality Assurance
-- Code reviews before merging
-- Automated testing required
-- Documentation updates mandatory
-
----
-
-## 11. Appendices
-
-### Appendix A: CI Register
-See `docs/CI_REGISTER.md` for complete CI listing
-
-### Appendix B: Directory Structure
-```
-inventory-tracker/
-├── docs/              # Documentation
-├── src/               # Source code
-├── tests/             # Test files
-├── releases/          # Release notes
-├── .gitignore         # Git exclusions
-├── README.md          # Project overview
-├── requirements.txt   # Dependencies
-├── items.json         # Inventory Database
-└── users.json         # User Database
-```
-
-### Appendix C: Contact Information
-
-**SCM Manager**: Haileab Tesfaye (ETS0714/14)  
-**Change Controller**: Ephrem Mandefro (ETS0536/14)  
-**Documenter**: Haileyesus Asrat (ETS0718/14)  
-**Reviewer**: Henok Tademe (ETS0775/14)  
-**GitHub Repository**: https://github.com/HenokTade/inventory-tracker
+### 8.2 Review Process
+Updates to the SCMP require review by the SCM Manager and Change Controller before being committed as a new version.
 
 ---
 
 **Document Approval**
 
-| Role | Name | Signature | Date |
-|------|------|-----------|------|
-| SCM Manager | Haileab Tesfaye | _________ | Dec 25, 2024 |
-| Change Controller | Ephrem Mandefro | _________ | Dec 25, 2024 |
-| Documenter | Haileyesus Asrat | _________ | Dec 25, 2024 |
-| Reviewer | Henok Tademe | _________ | Dec 25, 2024 |
-
----
-
-**Document Control**
-- **Version**: 1.1
-- **Status**: Approved
-- **Created**: December 19, 2024
-- **Last Updated**: December 25, 2024
-- **Next Review**: January 25, 2025
+| Role | Name | Date | Signature |
+|------|------|------|-----------|
+| SCM Manager | Haileab Tesfaye | Dec 25, 2024 | *Signed* |
+| Change Controller | Ephrem Mandefro | Dec 25, 2024 | *Signed* |
