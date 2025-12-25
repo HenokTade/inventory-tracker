@@ -191,7 +191,10 @@
             document.getElementById('editItemId').value = id;
             document.getElementById('editItemName').value = name;
             document.getElementById('editItemQuantity').value = quantity;
-            document.getElementById('editForm').action = "{{ url_for('edit_item', item_id='DUMMY') }}".replace('DUMMY', id);
+            // Use 0 as dummy ID (valid int), then replace it. The URL will end with /0
+            let dummyUrl = "{{ url_for('edit_item', item_id=0) }}";
+            // Replace the last character (0) with the actual ID
+            document.getElementById('editForm').action = dummyUrl.substring(0, dummyUrl.length - 1) + id;
             document.getElementById('editModal').style.display = 'block';
         }
 

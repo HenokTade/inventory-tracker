@@ -5,7 +5,7 @@ import sys
 
 # Add src to path
 sys.path.append(os.path.join(os.getcwd(), 'src'))
-from app import app, USERS, DATA_FILE
+from app import app, DATA_FILE
 
 class TestInventoryTracker(unittest.TestCase):
 
