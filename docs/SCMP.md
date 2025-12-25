@@ -2,8 +2,8 @@
 ## Inventory Tracker System
 
 **Project**: Inventory Tracker System  
-**Version**: 1.0  
-**Date**: December 19, 2024  
+**Version**: 1.1  
+**Date**: December 25, 2024  
 **Prepared By**: Henok Tade
 
 ---
@@ -19,7 +19,7 @@ This plan applies to all software components, documentation, and related artifac
 - Documentation
 - Test files
 - Configuration files
-- Database files
+- Database files (`items.json`, `users.json`)
 - UI mockups and designs
 
 ### 1.3 Definitions
@@ -211,7 +211,8 @@ Closes #123
 
 #### Baselines
 - **Initial Baseline**: v1.0.0 (Commit: 30151a8)
-- **Future Baselines**: Tagged releases (v1.1.0, v2.0.0, etc.)
+- **Baseline 2**: BL2 / v1.1.0 (Commit: f130c33)
+- **Future Baselines**: Tagged releases (v2.0.0, etc.)
 
 #### Baseline Approval
 - All baselines require Configuration Manager approval
@@ -242,19 +243,20 @@ Closes #123
 
 ## 6. Configuration Audits
 
-### 6.1 Physical Audit
-- Verify all CIs exist in repository
-- Check file integrity
-- Validate directory structure
+Configuration auditing is conducted after change implementation to ensure full compliance with configuration management policies.
 
-### 6.2 Functional Audit
-- Verify functionality matches documentation
-- Run automated test suite
-- Validate user acceptance criteria
+### 6.1 Audit Criteria (FCA & PCA)
+Audits must verify the following five key areas:
 
-### 6.3 Audit Schedule
-- **Pre-Release**: Before each version release
-- **Quarterly**: Every 3 months
+1.  **Alignment with Approved Request**: Verify implementation aligns with approved Change Request (CR).
+2.  **Documentation & Baselines**: Ensure all documentation (CI Register, Changelog) and Baselines (Git Tags) are updated.
+3.  **Verification Results**: Confirm all automated and manual tests have passed.
+4.  **Unauthorized Changes**: Check for any unauthorized changes or unexplained files.
+5.  **Audit Scope**: Conduct both Functional Configuration Audit (FCA) and Physical Configuration Audit (PCA).
+
+### 6.2 Audit Schedule
+- **Pre-Release**: Before each version release (Required)
+- **Quarterly**: Every 3 months (Periodic check)
 - **Ad-hoc**: As needed for major changes
 
 ---
@@ -337,7 +339,8 @@ inventory-tracker/
 ├── .gitignore         # Git exclusions
 ├── README.md          # Project overview
 ├── requirements.txt   # Dependencies
-└── items.json         # Database
+├── items.json         # Inventory Database
+└── users.json         # User Database
 ```
 
 ### Appendix C: Contact Information
@@ -354,16 +357,16 @@ inventory-tracker/
 
 | Role | Name | Signature | Date |
 |------|------|-----------|------|
-| SCM Manager | Haileab Tesfaye | _________ | Dec 19, 2024 |
-| Change Controller | Ephrem Mandefro | _________ | Dec 19, 2024 |
-| Documenter | Haileyesus Asrat | _________ | Dec 19, 2024 |
-| Reviewer | Henok Tademe | _________ | Dec 19, 2024 |
+| SCM Manager | Haileab Tesfaye | _________ | Dec 25, 2024 |
+| Change Controller | Ephrem Mandefro | _________ | Dec 25, 2024 |
+| Documenter | Haileyesus Asrat | _________ | Dec 25, 2024 |
+| Reviewer | Henok Tademe | _________ | Dec 25, 2024 |
 
 ---
 
 **Document Control**
-- **Version**: 1.0
-- **Status**: Draft
+- **Version**: 1.1
+- **Status**: Approved
 - **Created**: December 19, 2024
-- **Last Updated**: December 19, 2024
-- **Next Review**: January 19, 2025
+- **Last Updated**: December 25, 2024
+- **Next Review**: January 25, 2025
