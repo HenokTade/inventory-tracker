@@ -27,7 +27,7 @@
 **Priority**: High  
 **Type**: New Feature  
 **Submitted**: 2024-12-19  
-**Completed**: 2024-12-19  
+**Completed**: 2024-12-25  
 
 **Description**: Add ability to edit existing inventory items (name and quantity)
 
@@ -35,19 +35,19 @@
 - CI-007: Main Application (`src/app.py`)
 - CI-009: Dashboard Page (`src/templates/dashboard.html`)
 - CI-010: Stylesheet (`src/static/style.css`)
-- CI-011: Unit Tests (`tests/test_app.py`)
+- CI-020: CR Tests (`tests/test_cr_implementation.py`)
 - CI-004: User Guide (`docs/USER_GUIDE.md`)
 
 **Implementation**:
 - Added `/edit/<item_id>` route in Flask application
 - Added edit buttons to dashboard table
-- Created edit form modal/page
+- Created edit form modal
+- Added audit trail (last_modified, modified_by)
 - Updated tests to cover edit functionality
-- Updated user documentation
 
-**Git Commit**: [To be filled after implementation]
+**Git Commit**: `f130c33`
 
-**Verification**: Tested successfully - users can edit items
+**Verification**: Verified via unit tests (`test_cr001_edit_item`) and manual testing.
 
 ---
 
@@ -56,28 +56,25 @@
 **Priority**: Medium  
 **Type**: Enhancement  
 **Submitted**: 2024-12-19  
-**Completed**: 2024-12-19  
+**Completed**: 2024-12-25  
 
-**Description**: Add search functionality to filter inventory items by name
+**Description**: Add search functionality to filter inventory items by name and quantity
 
 **Affected CIs**:
 - CI-007: Main Application (`src/app.py`)
 - CI-009: Dashboard Page (`src/templates/dashboard.html`)
-- CI-010: Stylesheet (`src/static/style.css`)
-- CI-011: Unit Tests (`tests/test_app.py`)
+- CI-020: CR Tests (`tests/test_cr_implementation.py`)
 - CI-004: User Guide (`docs/USER_GUIDE.md`)
 
 **Implementation**:
-- Added search bar to dashboard
-- Implemented client-side filtering using JavaScript
-- Added search icon and clear button
-- Updated styling for search component
+- Added search bar and quantity filter to dashboard
+- Implemented real-time search with JavaScript auto-submit
+- Updated backend to handle search query params
 - Added tests for search functionality
-- Updated documentation
 
-**Git Commit**: [To be filled after implementation]
+**Git Commit**: `f130c33`
 
-**Verification**: Tested successfully - search filters items in real-time
+**Verification**: Verified via unit tests (`test_cr002_search_filter`) and manual testing.
 
 ---
 
@@ -86,7 +83,7 @@
 **Priority**: Medium  
 **Type**: New Feature  
 **Submitted**: 2024-12-19  
-**Completed**: 2024-12-19  
+**Completed**: 2024-12-25  
 
 **Description**: Implement role-based access control (Admin, Manager, Viewer)
 
@@ -94,23 +91,20 @@
 - CI-007: Main Application (`src/app.py`)
 - CI-008: Login Page (`src/templates/login.html`)
 - CI-009: Dashboard Page (`src/templates/dashboard.html`)
-- CI-012: Data Storage (add `users.json`)
-- CI-011: Unit Tests (`tests/test_app.py`)
-- CI-004: User Guide (`docs/USER_GUIDE.md`)
-- CI-002: Requirements Document (`docs/README.md`)
+- CI-018: User Management Page (`src/templates/users.html`)
+- CI-019: User Data (`users.json`)
+- CI-020: CR Tests (`tests/test_cr_implementation.py`)
 
 **Implementation**:
 - Created user roles: Admin (full access), Manager (add/edit), Viewer (read-only)
-- Added role-based permissions in routes
-- Updated login to include role assignment
-- Created users.json for user management
-- Updated UI to show/hide features based on role
-- Added role-based tests
-- Updated all documentation
+- Added strict permission checks in all routes
+- Implemented `users.json` for persistent user storage
+- Added User Management interface for Admins
+- Updated UI to adapt to user roles
 
-**Git Commit**: [To be filled after implementation]
+**Git Commit**: `f130c33`
 
-**Verification**: Tested successfully - roles enforce proper access control
+**Verification**: Verified via unit tests (`test_cr003_role_access`) and manual testing.
 
 ---
 

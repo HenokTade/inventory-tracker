@@ -12,23 +12,26 @@
 
 | CI ID | CI Name | Version | Owner | Category | Status | Location | Description |
 |-------|---------|---------|-------|----------|--------|----------|-------------|
-| CI-001 | Project README | 1.0.0 | Haileyesus Asrat | Documentation | Approved | `/README.md` | Main project documentation with overview, quick start guide, and structure |
-| CI-002 | Requirements Document | 1.0.0 | Haileyesus Asrat | Documentation | Approved | `/docs/README.md` | Project requirements and feature specifications |
-| CI-003 | Installation Guide | 1.0.0 | Haileyesus Asrat | Documentation | Approved | `/docs/INSTALLATION.md` | Setup and installation instructions |
-| CI-004 | User Guide | 1.0.0 | Haileyesus Asrat | Documentation | Approved | `/docs/USER_GUIDE.md` | End-user documentation and usage instructions |
-| CI-005 | Release Notes | 1.0.0 | Haileab Tesfaye | Documentation | Approved | `/releases/v1.0.0.md` | Version 1.0.0 release documentation |
-| CI-006 | Test Documentation | 1.0.0 | Ephrem Mandefro | Documentation | Approved | `/tests/README.md` | Testing procedures and guidelines |
-| CI-007 | Main Application | 1.0.0 | Haileab Tesfaye | Source Code | Approved | `/src/app.py` | Flask application backend (Python) |
-| CI-008 | Login Page | 1.0.0 | Haileab Tesfaye | UI/Frontend | Approved | `/src/templates/login.html` | User authentication interface (HTML) |
-| CI-009 | Dashboard Page | 1.0.0 | Haileab Tesfaye | UI/Frontend | Approved | `/src/templates/dashboard.html` | Main inventory dashboard interface (HTML) |
-| CI-010 | Stylesheet | 1.0.0 | Henok Tademe | UI/Frontend | Approved | `/src/static/style.css` | Application styling (CSS) |
-| CI-011 | Unit Tests | 1.0.0 | Ephrem Mandefro | Test Code | Approved | `/tests/test_app.py` | Automated test suite (Python) |
-| CI-012 | Data Storage | 1.0.0 | Henok Tademe | Database | Active | `/items.json` | JSON-based inventory database |
+| CI-001 | Project README | 1.1.0 | Haileyesus Asrat | Documentation | Approved | `/README.md` | Main project documentation with overview, quick start guide, and structure |
+| CI-002 | Requirements Document | 1.1.0 | Haileyesus Asrat | Documentation | Approved | `/docs/README.md` | Project requirements and feature specifications |
+| CI-003 | Installation Guide | 1.1.0 | Haileyesus Asrat | Documentation | Approved | `/docs/INSTALLATION.md` | Setup and installation instructions |
+| CI-004 | User Guide | 1.1.0 | Haileyesus Asrat | Documentation | Approved | `/docs/USER_GUIDE.md` | End-user documentation and usage instructions |
+| CI-005 | Release Notes | 1.1.0 | Haileab Tesfaye | Documentation | Approved | `/releases/v1.1.0.md` | Version 1.1.0 release documentation |
+| CI-006 | Test Documentation | 1.1.0 | Ephrem Mandefro | Documentation | Approved | `/tests/README.md` | Testing procedures and guidelines |
+| CI-007 | Main Application | 1.1.0 | Haileab Tesfaye | Source Code | Approved | `/src/app.py` | Flask application backend (Python) |
+| CI-008 | Login Page | 1.1.0 | Haileab Tesfaye | UI/Frontend | Approved | `/src/templates/login.html` | User authentication interface (HTML) |
+| CI-009 | Dashboard Page | 1.1.0 | Haileab Tesfaye | UI/Frontend | Approved | `/src/templates/dashboard.html` | Main inventory dashboard interface (HTML) |
+| CI-010 | Stylesheet | 1.1.0 | Henok Tademe | UI/Frontend | Approved | `/src/static/style.css` | Application styling (CSS) |
+| CI-011 | Unit Tests | 1.1.0 | Ephrem Mandefro | Test Code | Approved | `/tests/test_app.py` | Automated test suite (Python) |
+| CI-012 | Inventory Data | 1.0.0 | Henok Tademe | Database | Active | `/items.json` | JSON-based inventory database |
 | CI-013 | Dependencies | 1.0.0 | Haileab Tesfaye | Configuration | Approved | `/requirements.txt` | Python package dependencies |
 | CI-014 | Git Ignore | 1.0.0 | Haileab Tesfaye | Configuration | Approved | `/.gitignore` | Version control exclusions |
-| CI-015 | SCMP Document | 1.0.0 | Haileyesus Asrat | Documentation | Approved | `/docs/SCMP.md` | Software Configuration Management Plan |
-| CI-016 | CI Register | 1.0.0 | Haileyesus Asrat | Documentation | Approved | `/docs/CI_REGISTER.md` | Configuration Item tracking register |
-| CI-017 | Change Log | 1.0.0 | Ephrem Mandefro | Documentation | Approved | `/docs/CHANGE_LOG.md` | Change Request tracking log |
+| CI-015 | SCMP Document | 1.1.0 | Haileyesus Asrat | Documentation | Approved | `/docs/SCMP.md` | Software Configuration Management Plan |
+| CI-016 | CI Register | 1.1.0 | Haileyesus Asrat | Documentation | Approved | `/docs/CI_REGISTER.md` | Configuration Item tracking register |
+| CI-017 | Change Log | 1.1.0 | Ephrem Mandefro | Documentation | Approved | `/docs/CHANGE_LOG.md` | Change Request tracking log |
+| CI-018 | User Management Page | 1.1.0 | Haileab Tesfaye | UI/Frontend | Approved | `/src/templates/users.html` | User management interface (HTML) |
+| CI-019 | User Data | 1.1.0 | Henok Tademe | Database | Active | `/users.json` | JSON-based user credentials and roles |
+| CI-020 | CR Tests | 1.1.0 | Ephrem Mandefro | Test Code | Approved | `/tests/test_cr_implementation.py` | Automated tests for CR implementations |
 
 ---
 
@@ -50,12 +53,15 @@
 - Login Page (CI-008)
 - Dashboard Page (CI-009)
 - Stylesheet (CI-010)
+- User Management Page (CI-018)
 
 ### Test Code
 - Unit Tests (CI-011)
+- CR Tests (CI-020)
 
 ### Database
-- Data Storage (CI-012)
+- Inventory Data (CI-012)
+- User Data (CI-019)
 
 ### Configuration
 - Dependencies (CI-013)
@@ -81,7 +87,7 @@
 All Configuration Items are tracked in Git repository:
 - **Repository**: https://github.com/HenokTade/inventory-tracker
 - **Branch**: main
-- **Latest Commit**: 30151a8
+- **Latest Commit**: f130c33
 
 ### Commit History
 1. `1544d3c` - Initial commit: Inventory Tracker application
@@ -89,6 +95,7 @@ All Configuration Items are tracked in Git repository:
 3. `2517f38` - Move application code to src directory
 4. `5b39c23` - Add release notes and update gitignore
 5. `30151a8` - Add main README file
+6. `f130c33` - Feat: Complete User Management and Real-time Search impl
 
 ---
 
