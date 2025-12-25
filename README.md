@@ -21,8 +21,9 @@ python src/app.py
 ```
 
 Visit `http://localhost:5000` and login with:
-- **Username**: `admin`
-- **Password**: `admin`
+- **Admin**: `admin` / `admin` (Full Access)
+- **Manager**: `manager` / `manager` (Edit Access)
+- **Viewer**: `viewer` / `viewer` (Read Only)
 
 ## 📁 Project Structure
 
@@ -35,21 +36,26 @@ inventory-tracker/
 ├── src/               # 💻 Source code
 │   ├── app.py
 │   ├── templates/
+│   │   ├── dashboard.html
+│   │   ├── login.html
+│   │   └── users.html
 │   └── static/
 ├── tests/             # 🧪 Unit tests
-│   ├── test_app.py
-│   └── README.md
 ├── releases/          # 📋 Release notes
-│   └── v1.0.0.md
-├── items.json         # 💾 Data storage
+├── items.json         # 💾 Inventory Data
+├── users.json         # 👥 User Data
 └── requirements.txt   # 📦 Dependencies
 ```
 
 ## ✨ Features
 
-- ✅ **Secure Authentication** - Login system with session management
-- ✅ **Inventory Dashboard** - View all items in organized table
-- ✅ **Add Items** - Quick form to add new inventory items
+- ✅ **Secure Authentication** - Login system with role-based access
+- ✅ **Role Management** - Admin, Manager, and Viewer roles
+- ✅ **Inventory Dashboard** - View all items with real-time updates
+- ✅ **Search & Filter** - Instant search and quantity filtering
+- ✅ **Item Management** - Add, edit, and delete inventory items
+- ✅ **User Management** - Admin interface to manage users
+- ✅ **Audit Trail** - Track modifications and timestamps
 - ✅ **Data Persistence** - Automatic JSON-based storage
 - ✅ **Responsive Design** - Clean, modern UI
 
@@ -57,7 +63,7 @@ inventory-tracker/
 
 - **[Installation Guide](docs/INSTALLATION.md)** - Setup instructions
 - **[User Guide](docs/USER_GUIDE.md)** - How to use the system
-- **[Release Notes](releases/v1.0.0.md)** - Version history
+- **[Release Notes](releases/v1.1.0.md)** - Version history
 
 ## 🧪 Testing
 
